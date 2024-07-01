@@ -4,6 +4,10 @@ from dotenv import load_dotenv
 
 WEATHER_API_KEY = load_dotenv('WEATHER_API_KEY')
 
+def get_my_ip():
+    """ Return IP """
+    return requests.get('https://api.ipify.org').text
+
 def get_location_and_temperature(client_ip: str) -> any:
     """ Get Location and Temperature data """
     print(WEATHER_API_KEY, client_ip)
