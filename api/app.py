@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request, jsonify, redirect
 
-from helpers import get_location_and_temperature
+from . import helpers
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ def hello():
     visitor_name = request.args.get('visitor_name', 'Guest')
     client_ip = request.remote_addr
 
-    location, temperature = get_location_and_temperature(client_ip)
+    location, temperature = helpers.get_location_and_temperature(client_ip)
 
     response = {
         "client_ip": client_ip,
