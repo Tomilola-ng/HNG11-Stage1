@@ -1,17 +1,12 @@
 """ Helping Function """
-import environ
-import get from requests
+import requests
+from dotenv import load_dotenv
 
-env = environ.Env()
-environ.Env.read_env()
-
-weather_api_key = env('WEATER_API_KEY')
+WEATER_API_KEY = load_dotenv('WEATER_API_KEY')
 
 def get_location_and_temperature(client_ip: str) -> any:
     """ Get Location and Temperature data """
-    response = get(f'http://api.weatherapi.com/v1/current.json?key={weather_api_key}&q=${client_ip}')
-    data = response.data
+    response = requests.get(f'http://api.weatherapi.com/v1/current.json?key={WEATER_API_KEY}&q=${client_ip}')
+    jsonResponse = response.json()
 
-    print(data)
-
-    return "lagos", "09.90"
+    return jsonResponse.location.city, round(jsonResponse.current.temp_c)

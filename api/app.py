@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     """ Main Code """
-    return render_template('templates/intro.html')
+    return render_template('/intro.html')
 
 @app.route('/api')
 def api():
