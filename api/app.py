@@ -1,11 +1,6 @@
 """ VIEW CONTRLLER """
-
-import socket
 from flask import Flask, render_template, request, jsonify, redirect
-
 from . import helpers
-hostname = socket.gethostname()
-IPAddr = socket.gethostbyname(hostname)
 
 app = Flask(__name__)
 
@@ -23,11 +18,12 @@ def api():
 def hello():
     """ Route to handle task """
     visitor_name = request.args.get('visitor_name', 'Guest')
+    ip_addr = request.META.get('HTTP_X_FORWARDED_FOR').split(',')[0]
 
-    location, temperature = helpers.get_location_and_temperature(IPAddr)
+    location, temperature = helpers.get_location_and_temperature(ip_addr)
 
     response = {
-        "client_ip": IPAddr,
+        "client_ip": ip_addr,
         "location": location,
         "greeting": f"Hello, {visitor_name}! The temperature is{temperature} degrees Celsius in {location}"
     }
