@@ -1,8 +1,8 @@
 """ Helping Function """
 import os
-import socket
 import requests
 
+from flask import request
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,12 +10,8 @@ WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY")
 
 def get_my_ip():
     """ Return IP """
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.settimeout(0)
-    s.connect(('8.8.8.8', 1))  # Using Google DNS server
-    local_ip = s.getsockname()[0]
-    s.close()
-    return local_ip
+    external_ip = request.headers.get('X-Forwarded-For') or request.remote_addr
+    return external_ip
 
 def get_location_and_temperature(client_ip: str) -> any:
     """ Get Location and Temperature data """
